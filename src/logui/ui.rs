@@ -37,6 +37,7 @@ impl Windowable<&Tracker> for LogUi {
                 .hover_char_name_for_account_name,
         );
         ui.checkbox("Show text filter", &mut self.settings.show_filters);
+        ui.checkbox("Color code squad updates", &mut self.settings.color_code_squad_updates);
         ui.checkbox("Show seen users", &mut self.settings.show_seen_users);
         ui.separator();
         ui.checkbox("Squad", &mut self.settings.filter_settings.squad_message);

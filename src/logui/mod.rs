@@ -47,6 +47,7 @@ impl LogUi {
 
     pub fn update_settings(&mut self) {
         self.buffer.colors = self.settings.color_settings;
+        self.buffer.color_code_squad_updates = self.settings.color_code_squad_updates;
     }
 }
 

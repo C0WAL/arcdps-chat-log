@@ -44,6 +44,8 @@ pub struct ColorSettings {
     pub squad_user: [f32; 4],
     pub party_chat: [f32; 4],
     pub party_user: [f32; 4],
+    pub squad_leave:[f32; 4],
+    pub squad_join:[f32; 4],
 }
 
 impl ColorSettings {
@@ -54,6 +56,8 @@ impl ColorSettings {
             party_chat: [188.0 / 255.0, 222.0 / 255.0, 255.0 / 255.0, 1.0],
             squad_user: [192.0 / 255.0, 241.0 / 255.0, 97.0 / 255.0, 1.0],
             party_user: [68.0 / 255.0, 188.0 / 255.0, 255.0 / 255.0, 1.0],
+            squad_leave: [244.0 / 255.0, 104.0 / 255.0, 0.0 / 255.0, 0.8],
+            squad_join: [39.0 / 255.0, 245.0 / 255.0, 213.0 / 255.0, 0.8],
         }
     }
 }
@@ -75,6 +79,7 @@ pub struct ChatLogSettings {
     pub hotkey: Option<u32>,
     pub show_filters: bool,
     pub show_seen_users: bool,
+    pub color_code_squad_updates: bool,
 }
 
 impl ChatLogSettings {
@@ -88,6 +93,7 @@ impl ChatLogSettings {
             hotkey: Some(LogUi::DEFAULT_HOTKEY),
             show_filters: true,
             show_seen_users: true,
+            color_code_squad_updates: false,
         }
     }
 

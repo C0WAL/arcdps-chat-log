@@ -43,6 +43,20 @@ impl LogPart {
         Self::new(text, None, None, None)
     }
 
+    pub fn new_squad_update(text: &str,color_code_squad_updates: bool,color: &ColorSettings) -> Self {
+        if color_code_squad_updates == false {
+            Self::new(text, None, None, None)
+        } else {
+            if text.ends_with("left the squad") {
+                Self::new(text, None, Some(color.squad_leave), None)
+            }else if text.contains("joined the squad") {
+                Self::new(text, None, Some(color.squad_join), None)
+            } else {
+                Self::new(text, None, None, None)
+            }
+        }
+    }
+
     pub fn new_time<T: chrono::TimeZone>(time: chrono::DateTime<T>) -> Self {
         Self::new(
             &format!("[{}]", time.with_timezone(&Local).format(TIMESTAMP_FORMAT)),
@@ -216,6 +230,7 @@ pub struct LogBuffer {
     pub buffer: VecDeque<LogLine>,
     pub buffer_max_size: usize,
     pub colors: ColorSettings,
+    pub color_code_squad_updates: bool,
 }
 
 impl LogBuffer {
@@ -224,6 +239,7 @@ impl LogBuffer {
             buffer: VecDeque::new(),
             buffer_max_size: 100,
             colors: ColorSettings::new(),
+            color_code_squad_updates: false,
         }
     }
 
@@ -237,7 +253,7 @@ impl LogBuffer {
         log_line.parts.push(LogPart::new_current_time());
         log_line
             .parts
-            .push(LogPart::new_no_color(&format!("[Update] {}", line)));
+            .push(LogPart::new_squad_update(&format!("[Update] {}", line),self.color_code_squad_updates,&self.colors));
         self.insert_message(log_line)
     }
 
@@ -245,7 +261,7 @@ impl LogBuffer {
         let mut log_line = LogLine::new();
         log_line.log_type = LogType::SquadUpdate;
         log_line.parts.push(LogPart::new_current_time());
-        log_line.parts.push(LogPart::new_no_color("[Update] "));
+        log_line.parts.push(LogPart::new_squad_update("[Update] ",self.color_code_squad_updates,&self.colors));
         log_line.parts.append(parts);
         self.insert_message(log_line)
     }
